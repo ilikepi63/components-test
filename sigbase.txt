@@ -1,3 +1,3 @@
 "@method": GET
 "@path": /device/bab21e7e-93fc-394f-b433-2392f4bd7188/config
-"@signature-params": ("@method" "@path");created=1711439481;keyid="rsa-pss";alg="rsa-v1_5-sha256"
+"@signature-params": ("@method" "@path");created=1711439841;keyid="rsa-pss";alg="rsa-v1_5-sha256"
