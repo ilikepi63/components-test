@@ -41,7 +41,7 @@ class RSASignatureKeyResolver(HTTPSignatureKeyResolver):
         return PRIVATE_PEM
 
     def resolve_public_key(self, key_id):
-        return load_pem_public_key(self.rsa_public_signing_key.encode("utf-8"), default_backend())
+        return load_pem_public_key(self.rsa_public_signing_key, default_backend())
 
 
 def sign_request_with_rsa_tpm_key(
