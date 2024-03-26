@@ -20,28 +20,27 @@ PRIVATE_PEM = b"""-----BEGIN RSA PRIVATE KEY-----\r\nMIIEowIBAAKCAQEA3DGzdfA8onY
 
 
 
-# PUBLIC_PEM = b"""-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEA3DGzdfA8onY6PtCJVsALzuGWkpEqAgonuG/AFu6Uec0D5OO0g2g9\ns+v2P0yb0KhsC/qzDKNDjXUo1/HuLOw55H0uXvfqpCH/QGDHFVsbUTb6kyhx8FPy\nxBVEnT5C2Iuo6pOOAczWL9L16N7fBQtndGBkPQykVOVO8PjawtdsNgU4LU+p0g8Y\nNLDTcz7M42fdR1f6WflkNJfFphDneqCqTzCm+mayYtgAHK5fOJv4Gt+Hu9Y/h6D6\n0SnXk0GMH1I0HQ+JSfCFrWaIX2ff+4ZNR792OvCWyAp62arNv1aXE5zuvdhaWSdJ\nsKLr/L+BZOtVZYVfxgw8uAUexv8RU9J8dwIDAQAB\n-----END RSA PUBLIC KEY-----\n"""
+PUBLIC_PEM = b"""-----BEGIN RSA PUBLIC KEY-----\nMIIBCgKCAQEA3DGzdfA8onY6PtCJVsALzuGWkpEqAgonuG/AFu6Uec0D5OO0g2g9\ns+v2P0yb0KhsC/qzDKNDjXUo1/HuLOw55H0uXvfqpCH/QGDHFVsbUTb6kyhx8FPy\nxBVEnT5C2Iuo6pOOAczWL9L16N7fBQtndGBkPQykVOVO8PjawtdsNgU4LU+p0g8Y\nNLDTcz7M42fdR1f6WflkNJfFphDneqCqTzCm+mayYtgAHK5fOJv4Gt+Hu9Y/h6D6\n0SnXk0GMH1I0HQ+JSfCFrWaIX2ff+4ZNR792OvCWyAp62arNv1aXE5zuvdhaWSdJ\nsKLr/L+BZOtVZYVfxgw8uAUexv8RU9J8dwIDAQAB\n-----END RSA PUBLIC KEY-----\n"""
 
-PUBLIC_PEM = """-----BEGIN RSA PUBLIC KEY-----
-MIIBCgKCAQEA3DGzdfA8onY6PtCJVsALzuGWkpEqAgonuG/AFu6Uec0D5OO0g2g9
-s+v2P0yb0KhsC/qzDKNDjXUo1/HuLOw55H0uXvfqpCH/QGDHFVsbUTb6kyhx8FPy
-xBVEnT5C2Iuo6pOOAczWL9L16N7fBQtndGBkPQykVOVO8PjawtdsNgU4LU+p0g8Y
-NLDTcz7M42fdR1f6WflkNJfFphDneqCqTzCm+mayYtgAHK5fOJv4Gt+Hu9Y/h6D6
-0SnXk0GMH1I0HQ+JSfCFrWaIX2ff+4ZNR792OvCWyAp62arNv1aXE5zuvdhaWSdJ
-sKLr/L+BZOtVZYVfxgw8uAUexv8RU9J8dwIDAQAB
------END RSA PUBLIC KEY-----"""
+# PUBLIC_PEM = """-----BEGIN RSA PUBLIC KEY-----
+# MIIBCgKCAQEA3DGzdfA8onY6PtCJVsALzuGWkpEqAgonuG/AFu6Uec0D5OO0g2g9
+# s+v2P0yb0KhsC/qzDKNDjXUo1/HuLOw55H0uXvfqpCH/QGDHFVsbUTb6kyhx8FPy
+# xBVEnT5C2Iuo6pOOAczWL9L16N7fBQtndGBkPQykVOVO8PjawtdsNgU4LU+p0g8Y
+# NLDTcz7M42fdR1f6WflkNJfFphDneqCqTzCm+mayYtgAHK5fOJv4Gt+Hu9Y/h6D6
+# 0SnXk0GMH1I0HQ+JSfCFrWaIX2ff+4ZNR792OvCWyAp62arNv1aXE5zuvdhaWSdJ
+# sKLr/L+BZOtVZYVfxgw8uAUexv8RU9J8dwIDAQAB
+# -----END RSA PUBLIC KEY-----"""
 from cryptography.hazmat.primitives.serialization import load_pem_public_key
 from cryptography.hazmat.backends import default_backend
 
 
 class RSASignatureKeyResolver(HTTPSignatureKeyResolver):
-    rsa_public_signing_key: str
 
     def resolve_private_key(self, key_id: str):
         return PRIVATE_PEM
 
     def resolve_public_key(self, key_id):
-        return load_pem_public_key(self.rsa_public_signing_key, default_backend())
+        return load_pem_public_key(PUBLIC_PEM, default_backend())
 
 
 def sign_request_with_rsa_tpm_key(
@@ -154,7 +153,7 @@ verifier.verify(
 
 verifier = HTTPMessageVerifier(
     signature_algorithm=RSA_V1_5_SHA256,
-    key_resolver=RSASignatureKeyResolver(rsa_public_signing_key = PUBLIC_PEM),
+    key_resolver=RSASignatureKeyResolver(),
 )
 
 # sig_inputs = verifier._parse_dict_header("Signature-Input", request.headers)
