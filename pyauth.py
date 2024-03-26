@@ -83,12 +83,12 @@ def sign_request_with_rsa_tpm_key(
 
 
 def verify_rsa_signature(request: requests.Request) -> bool:
-    request = requests.Request("GET", "http://127.0.0.1/device/bab21e7e-93fc-394f-b433-2392f4bd7188/config", headers={
-    "Signature": "pyhms=:EW2HqOaDOHWHThnTH8lAHeVSNxzA6auM7slNLeXIut4MYzcGyZHqy4Nw5K0E7sIWlVtMbhz2rZk1IF7TxujRmowvmbhMq4DnuTuXHX43gBKTGHCCuBLtGtPX3irhSDH75cLZz+RZWgxiJa0tMPUFayqSzF0Cdn/Lynbnf+E3jLgh0k8egz4uIhIkhzmFwAKS0Y5ckaxSEewOd3bXHj6M+xKHjpZemYAsSKYRQ15TWSsEQ9xQpZEnVMx6Q88LRSTKKwsr3A8rX2DufQMgcPaVszHzOUXQ+rFiBgmo3Aou2d9RXgfMKHczbwzQ/EkuD3rm38+oCyMd3JqZA7S21Ot4DA==:",
-    "Signature-Input": "pyhms=(\"@method\" \"@path\");created=1711392761;keyid=\"rsa-pss\";alg=\"rsa-v1_5-sha256\"",
-        # "Signature": "pyhms=:\"19J2rkirlthHReGCX1OaXDMAxZKE8GO4gy5Y+qd7EROa0vLJmzCUWtO1Y0PqZs+3RqRN3Ov/jGWskp/ulmsJ/lnfys58g0jPr1IYtCebC62cUbnRfA8Xu7vWd++bDVM7J0rHJj86ch+NIvjmTTHibJxiRR3eF5naqPsHplWBNoE2Q+SeuwBpCju8+kw5BLq9f/CM0KhwFJIpSKGAcMdwYqLYSbBGO0OgV5oxExEwg67rw63QeGph2dNKD13207X3Wfi9SbUzvfACDz4jGZ65svNhi7GznWueA+xtCO4Soogq1sYIy3vLpus6CrsQS0LpAzLHXO+az+4no6i1truf/A==\":",
-        # "Signature-Input": "pyhms=(\"@path\" \"@method\");alg=rsa-v1_5-sha256;created=1711372056;keyid=\"rsa-pss\""
-    })
+    # request = requests.Request("GET", "http://127.0.0.1/device/bab21e7e-93fc-394f-b433-2392f4bd7188/config", headers={
+    # "Signature": "pyhms=:EW2HqOaDOHWHThnTH8lAHeVSNxzA6auM7slNLeXIut4MYzcGyZHqy4Nw5K0E7sIWlVtMbhz2rZk1IF7TxujRmowvmbhMq4DnuTuXHX43gBKTGHCCuBLtGtPX3irhSDH75cLZz+RZWgxiJa0tMPUFayqSzF0Cdn/Lynbnf+E3jLgh0k8egz4uIhIkhzmFwAKS0Y5ckaxSEewOd3bXHj6M+xKHjpZemYAsSKYRQ15TWSsEQ9xQpZEnVMx6Q88LRSTKKwsr3A8rX2DufQMgcPaVszHzOUXQ+rFiBgmo3Aou2d9RXgfMKHczbwzQ/EkuD3rm38+oCyMd3JqZA7S21Ot4DA==:",
+    # "Signature-Input": "pyhms=(\"@method\" \"@path\");created=1711392761;keyid=\"rsa-pss\";alg=\"rsa-v1_5-sha256\"",
+    #     # "Signature": "pyhms=:\"19J2rkirlthHReGCX1OaXDMAxZKE8GO4gy5Y+qd7EROa0vLJmzCUWtO1Y0PqZs+3RqRN3Ov/jGWskp/ulmsJ/lnfys58g0jPr1IYtCebC62cUbnRfA8Xu7vWd++bDVM7J0rHJj86ch+NIvjmTTHibJxiRR3eF5naqPsHplWBNoE2Q+SeuwBpCju8+kw5BLq9f/CM0KhwFJIpSKGAcMdwYqLYSbBGO0OgV5oxExEwg67rw63QeGph2dNKD13207X3Wfi9SbUzvfACDz4jGZ65svNhi7GznWueA+xtCO4Soogq1sYIy3vLpus6CrsQS0LpAzLHXO+az+4no6i1truf/A==\":",
+    #     # "Signature-Input": "pyhms=(\"@path\" \"@method\");alg=rsa-v1_5-sha256;created=1711372056;keyid=\"rsa-pss\""
+    # })
 
     verifier = HTTPMessageVerifier(
         signature_algorithm=RSA_V1_5_SHA256,
@@ -117,7 +117,88 @@ dict_header_node.parse(request.headers["Signature"].encode())
 
 dict_header_node.parse("pyhms=:A/KVDogUBT1wYfK7ZIv5g++GWanltTRKxPAvCSn86G65YwAUpb4b0mxvryxRBYjXIuLbXmse6Z3YcklISCIDXu4wtY+CrWYwtnERjh0gNXQdnhu8PPKfrMCv7C3UybbaF+s7TtR14JYsXv7+HdcgEW8Oe/w8jeNHoUhw+JJx+QB2Yi6TMoZk+cfe/P+KEDzSQYmO/Cz5mO7mBJ6oc2a0WFfBbG0hcZToLNBujHFq3DyNT12QlmQPrLOC7FXz3dcpq9YEmMAAHpJL69IaRA1A27tLRdb1rAmJk+9tZa/gjDPEmo/LeyjCNSv3Ks3otMG5SYld8HUHA3Dvn7kZ0pIy1w==:".encode())
 
+
+
+
 padding = padding.PKCS1v15()
 hash_algorithm = hashes.SHA256()
 
-print(public_key.verify(dict_header_node["pyhms"].value, b"hello", padding, hash_algorithm))
+# print(public_key.verify(dict_header_node["pyhms"].value, b"hello", padding, hash_algorithm))
+
+
+## NEW STUFF
+
+request = requests.Request("GET", "http://127.0.0.1/device/bab21e7e-93fc-394f-b433-2392f4bd7188/config", headers={
+    "Signature": "pyhms=:XWCAHUBPK1oJN6ACD6j4Em73HQfHDoJW3qjOjImcFUqEk4K2H0274tuAExP1sMI8pxUNFlYPkSIGQEl+MIrLIlqkKBVX0TVmjpLgSNm/5OcetNCRRJvVUPZ6PaE9ZmZYjFI/3VJymZ3B8/fSO459tMOm3hLXhrhSgsdK+Ji1TqTEjOCRt4veZGET7e8LzYPaMOTZxHDd3kyIGw9P14B5WCd5vFUVIcvci/DM/veVfwoQEC0nOtKJZR5RODL4TKj8EesUutTqqAox/cf60FKTFE1fd8r3nJIb/VOcbMeMMQBsYJD3Ov2ybnQZ/+QIrvbp2KvdoAr2NBduNxoCicv89g==:",
+    "Signature-Input": "pyhms=(\"@method\" \"@path\");created=1711439481;keyid=\"rsa-pss\";alg=\"rsa-v1_5-sha256\"",
+        # "Signature": "pyhms=:\"19J2rkirlthHReGCX1OaXDMAxZKE8GO4gy5Y+qd7EROa0vLJmzCUWtO1Y0PqZs+3RqRN3Ov/jGWskp/ulmsJ/lnfys58g0jPr1IYtCebC62cUbnRfA8Xu7vWd++bDVM7J0rHJj86ch+NIvjmTTHibJxiRR3eF5naqPsHplWBNoE2Q+SeuwBpCju8+kw5BLq9f/CM0KhwFJIpSKGAcMdwYqLYSbBGO0OgV5oxExEwg67rw63QeGph2dNKD13207X3Wfi9SbUzvfACDz4jGZ65svNhi7GznWueA+xtCO4Soogq1sYIy3vLpus6CrsQS0LpAzLHXO+az+4no6i1truf/A==\":",
+        # "Signature-Input": "pyhms=(\"@path\" \"@method\");alg=rsa-v1_5-sha256;created=1711372056;keyid=\"rsa-pss\""
+})
+
+verify_rsa_signature(request )
+
+verifier = HTTPMessageVerifier(
+    signature_algorithm=RSA_V1_5_SHA256,
+    key_resolver=RSASignatureKeyResolver(),
+)
+
+sig_inputs = verifier._parse_dict_header("Signature-Input", request.headers)
+signature = verifier._parse_dict_header("Signature", request.headers)
+
+for label, sig_input in sig_inputs.items():
+
+    sig_base, sig_params_node, sig_elements = verifier._build_signature_base(
+        request, covered_component_ids=list(sig_input), signature_params=sig_input.params
+    )  
+
+    print(sig_base)
+    print(type(sig_base))
+
+    f = open("sigbase.txt", "w")
+    f.write(sig_base)
+    f.close()
+
+    private_key = load_pem_private_key(PRIVATE_PEM, None)
+
+    public_key.verify(signature["pyhms"].value, sig_base.encode(), padding, hash_algorithm)
+
+        # if len(sig_inputs) != 1:
+        #     # TODO: validate all behaviors with multiple signatures
+        #     raise InvalidSignature("Multiple signatures are not supported")
+        # signature = self._parse_dict_header("Signature", message.headers)
+        # verify_results = []
+        # for label, sig_input in sig_inputs.items():
+        #     self.validate_created_and_expires(sig_input, max_age=max_age)
+        #     if label not in signature:
+        #         raise InvalidSignature("Signature-Input contains a label not listed in Signature")
+        #     if "alg" in sig_input.params:
+        #         if sig_input.params["alg"] != self.signature_algorithm.algorithm_id:
+        #             raise InvalidSignature("Unexpected algorithm specified in the signature")
+        #     key = self.key_resolver.resolve_public_key(sig_input.params["keyid"])
+        #     for param in sig_input.params:
+        #         if param not in self.signature_metadata_parameters:
+        #             raise InvalidSignature(f'Unexpected signature metadata parameter "{param}"')
+        #     try:
+        #         sig_base, sig_params_node, sig_elements = self._build_signature_base(
+        #             message, covered_component_ids=list(sig_input), signature_params=sig_input.params
+        #         )
+        #     except Exception as e:
+        #         raise InvalidSignature(e) from e
+        #     verifier = self.signature_algorithm(public_key=key)
+        #     raw_signature = signature[label].value
+        #     print("RAW_SIGNATURE", sig_base.encode())
+        #     try:
+        #            verifier.verify(signature=raw_signature, message=sig_base.encode())
+        #     except Exception as e:
+        #         print("Exception")
+        #         print(e)
+        #         raise InvalidSignature(e) from e
+        #     verify_result = VerifyResult(
+        #         label=label,
+        #         algorithm=self.signature_algorithm,
+        #         covered_components=sig_elements,
+        #         parameters=dict(sig_params_node.params),
+        #         body=None,
+        #     )
+        #     verify_results.append(verify_result)
+        # return verify_results
